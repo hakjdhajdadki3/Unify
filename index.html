@@ -2,8 +2,8 @@
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>方统 · 极简 v2.2.1</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+    <title>方统 · 极简 v2.2.2</title>
     <style>
         * {
             box-sizing: border-box;
@@ -33,6 +33,7 @@
                 0 0 0 0.5px rgba(0,0,0,0.02);
             padding: 28px 24px 32px;
             transition: box-shadow 0.2s;
+            overflow: hidden; /* 防止任何子元素溢出圆角边界 */
         }
 
         /* 方区显示 */
@@ -61,6 +62,7 @@
             line-height: 1.4;
             word-break: break-word;
             transition: border-color 0.15s;
+            overflow: hidden;
         }
         .fang-display:hover {
             border-color: #cbd5e1;
@@ -72,6 +74,7 @@
             grid-template-columns: repeat(7, 1fr);
             gap: 10px;
             margin: 8px 0 24px;
+            max-width: 100%;
         }
         .grid-btn {
             aspect-ratio: 1 / 1;
@@ -90,6 +93,8 @@
             box-shadow: 0 1px 2px rgba(0,0,0,0.01);
             user-select: none;
             line-height: 1;
+            min-width: 0;      /* 允许网格项收缩 */
+            overflow: hidden;   /* 防止文字溢出 */
         }
         .grid-btn:hover {
             background: #f0f4ff;
@@ -128,6 +133,9 @@
             -webkit-user-select: none;
             opacity: 0.95;
             line-height: 1.5;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         /* 预测区域 */
@@ -143,6 +151,7 @@
             border-bottom: 1px solid #eef2f6;
             margin-bottom: 16px;
             line-height: 1.6;
+            overflow: hidden;
         }
         .predict-tag {
             display: inline-block;
@@ -171,10 +180,12 @@
         /* 表格区域 */
         .table-wrapper {
             margin-top: 8px;
+            overflow-x: auto;
         }
         .results-table {
             width: 100%;
             border-collapse: collapse;
+            min-width: 300px;
         }
         .results-table th {
             text-align: left;
@@ -209,6 +220,7 @@
             font-size: 0.95rem;
             color: #1e293b;
             letter-spacing: 0.5px;
+            word-break: break-word;
         }
         .remain-key-col {
             font-family: 'SF Mono', 'Menlo', monospace;
@@ -239,6 +251,7 @@
             transition: all 0.15s cubic-bezier(0.2,0,0,1);
             line-height: 1;
             box-shadow: 0 2px 4px -2px rgba(0,0,0,0.02);
+            flex-shrink: 0;
         }
         .check-btn:hover {
             background: #f8fafc;
@@ -266,7 +279,7 @@
             letter-spacing: 0.2px;
         }
 
-        /* ---------- 横屏分栏布局 (修复版 v2.2.1) ---------- */
+        /* 横屏分栏布局 (修复版) */
         @media (orientation: landscape) and (min-height: 400px) {
             body {
                 padding: 16px 12px;
@@ -284,6 +297,7 @@
                     "table .";
                 gap: 0 20px;
                 padding: 24px 20px 24px;
+                overflow: hidden;
             }
             .table-wrapper {
                 grid-area: table;
@@ -310,7 +324,6 @@
                 border-bottom: none;
                 margin-bottom: 0;
             }
-            /* 调整表格字号 */
             .results-table td {
                 padding: 12px 4px 12px 0;
             }
@@ -544,7 +557,7 @@
         function computeAndRender() {
             const fangs = [...fangArray];
             if (fangs.length === 0) {
-                tableWrapper.innerHTML = `<div class="empty-message">请点击上方选择方牌</div>`;
+                tableWrapper.innerHTML = `<div class="empty-message">请选择方牌</div>`;
                 availableDiscardInput.style.display = 'none';
                 predictArea.style.display = 'none';
                 return;
