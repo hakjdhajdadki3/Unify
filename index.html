@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
-    <title>方统 · 极简 v2.2.2</title>
+    <title>方统 · 极简 v2.3.0</title>
     <style>
         * {
             box-sizing: border-box;
@@ -33,10 +33,9 @@
                 0 0 0 0.5px rgba(0,0,0,0.02);
             padding: 28px 24px 32px;
             transition: box-shadow 0.2s;
-            overflow: hidden; /* 防止任何子元素溢出圆角边界 */
+            overflow: hidden;
         }
 
-        /* 方区显示 */
         .fang-display {
             width: 100%;
             min-height: 58px;
@@ -68,7 +67,6 @@
             border-color: #cbd5e1;
         }
 
-        /* 按钮网格 */
         .point-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
@@ -93,8 +91,8 @@
             box-shadow: 0 1px 2px rgba(0,0,0,0.01);
             user-select: none;
             line-height: 1;
-            min-width: 0;      /* 允许网格项收缩 */
-            overflow: hidden;   /* 防止文字溢出 */
+            min-width: 0;
+            overflow: hidden;
         }
         .grid-btn:hover {
             background: #f0f4ff;
@@ -114,7 +112,6 @@
             font-weight: 380;
         }
 
-        /* Key 区 */
         .discard-available {
             width: 100%;
             padding: 6px 8px;
@@ -138,7 +135,6 @@
             white-space: nowrap;
         }
 
-        /* 预测区域 */
         .predict-area {
             width: 100%;
             padding: 6px 8px 10px;
@@ -177,7 +173,6 @@
             color: #1e293b;
         }
 
-        /* 表格区域 */
         .table-wrapper {
             margin-top: 8px;
             overflow-x: auto;
@@ -279,7 +274,7 @@
             letter-spacing: 0.2px;
         }
 
-        /* 横屏分栏布局 (修复版) */
+        /* 横屏分栏布局 */
         @media (orientation: landscape) and (min-height: 400px) {
             body {
                 padding: 16px 12px;
@@ -344,7 +339,6 @@
 
 <script>
     (() => {
-        // 配置 (与v2.1.0完全一致)
         const MAX_FANG = 24;
         const MAX_HISTORY = 30;
         const POINT_MAP = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
@@ -456,14 +450,24 @@
 
         function formatSubset(arr) { return arr.map(v => formatPoint(v)).join('·'); }
 
+        // Key区格式化：非“缺”状态下使用降序排列
         function formatKeyDisplay(keys, pred = null) {
             const count = keys.length;
             if (count === 0) return '—';
             if (count === 13) return '完美';
-            if (count <= 8) return keys.map(k => formatPoint(k)).join(' ');
+            
+            // 降序排列 (K→A)
+            const sortedDesc = [...keys].sort((a,b) => b - a);
+            
+            if (count <= 8) {
+                return sortedDesc.map(k => formatPoint(k)).join(' ');
+            }
+            
             const missing = [];
             for (let i = 1; i <= 13; i++) if (!keys.includes(i)) missing.push(i);
+            
             if (!pred) return '缺：' + missing.map(m => formatPoint(m)).join(' ');
+            
             const nonEmptyLabels = PREDICT_CONFIG.map(cfg => cfg.label).filter(label => pred[label].length);
             if (nonEmptyLabels.length === 1) {
                 const label = nonEmptyLabels[0];
