@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>方统 · 极简 v3.3.0</title>
+    <title>方统 · 极简 v3.3.1</title>
     <style>
         /* ========== 基础变量 (默认纯净版) ========== */
         * {
@@ -165,7 +165,7 @@
             margin-bottom: 16px;
         }
 
-        /* 切换按钮 — 齿轮图标 */
+        /* 切换按钮 — 齿轮图标，悬停旋转 */
         .theme-toggle-btn {
             width: 48px;
             height: 48px;
@@ -179,8 +179,11 @@
             line-height: 1;
             flex-shrink: 0;
         }
+        .theme-toggle-btn:hover {
+            transform: rotate(15deg);
+        }
         .theme-toggle-btn:active {
-            transform: translateY(2px);
+            transform: scale(0.96) rotate(0deg);
             box-shadow: inset 0 2px 6px rgba(0,0,0,0.05);
         }
         .gear-icon {
@@ -243,7 +246,7 @@
             overflow: hidden;
         }
         .grid-btn:active {
-            transform: translateY(2px);
+            transform: scale(0.96);
             box-shadow: inset 0 2px 6px rgba(0,0,0,0.05);
         }
         .undo-btn {
@@ -310,7 +313,10 @@
             cursor: pointer; transition: all 0.15s;
             line-height: 1; flex-shrink: 0;
         }
-        .check-btn:active { transform: scale(0.94); }
+        .check-btn:active {
+            transform: scale(0.96);
+            box-shadow: inset 0 2px 6px rgba(0,0,0,0.05);
+        }
         .check-btn.active-feedback { background: #2563eb; border-color: #1e5fd9; color: white; }
 
         .empty-message { text-align: center; padding: 36px 0 20px; font-size: 0.95rem; font-weight: 450; }
@@ -371,11 +377,10 @@
             { label: '≥50%', minCount: 7 }
         ];
 
-        // 皮肤系统 (仅保留纯净版和B站可爱)
+        // 皮肤系统 (纯净版 / B站可爱)
         const SKINS = ['clean', 'bili'];
         let currentSkinIndex = 0;
 
-        // 皮肤切换
         const skinToggleBtn = document.getElementById('skinToggleBtn');
         function setSkin(index) {
             const body = document.body;
@@ -599,7 +604,7 @@
                 predictArea.style.display = 'none';
             }
             if (!discardGroups.length) {
-                tableWrapper.innerHTML = `<div class="empty-message">无解，继续录入</div>`;
+                tableWrapper.innerHTML = `<div class="empty-message">无解</div>`;
                 return;
             }
             tableWrapper.innerHTML = buildTableHTML(discardGroups);
