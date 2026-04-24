@@ -3,376 +3,238 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>方统 · 极简 v3.4.0 莫兰迪</title>
+    <title>方统 · 苹果哲学 v7.0.5</title>
     <style>
-        /* ========== 基础变量 (默认纯净版·莫兰迪灰) ========== */
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
+
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, sans-serif;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
             display: flex;
             justify-content: center;
             align-items: flex-start;
             min-height: 100vh;
             padding: 24px 16px;
-            transition: background 0.3s, color 0.3s;
-        }
-        @supports (font-variation-settings: normal) {
-            body { font-family: 'Inter Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, sans-serif; }
-        }
-
-        /* 纯净版·莫兰迪灰 (全新升级) */
-        body.skin-clean {
-            background: #eef0f2;  /* 莫兰迪灰绿基调 */
-        }
-        body.skin-clean .tool {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(25px);
-            border: 1px solid rgba(160, 175, 190, 0.25);
-            box-shadow: 0 25px 40px -15px rgba(30, 40, 50, 0.12), 0 0 0 0.5px rgba(0,0,0,0.02);
-        }
-        body.skin-clean .fang-display {
-            background: rgba(255,255,255,0.7);
-            border: 1px solid rgba(140, 160, 180, 0.25);
-            color: #2c3e4e;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.02);
-        }
-        body.skin-clean .grid-btn {
-            background: rgba(250, 252, 255, 0.8);
-            border: 1px solid rgba(150, 170, 190, 0.3);
-            border-bottom: 2px solid rgba(120, 140, 160, 0.2);
-            color: #2c3e4e;
-            box-shadow: 0 4px 6px -2px rgba(0,0,0,0.03), inset 0 1px 2px rgba(255,255,255,0.8);
-            font-weight: 560;
-        }
-        body.skin-clean .grid-btn:hover {
-            background: #ffffff;
-            border-color: #8fa6c2;
-            box-shadow: 0 8px 12px -4px rgba(60, 80, 100, 0.1);
-            transform: translateY(-1px);
-        }
-        body.skin-clean .grid-btn:active {
-            transform: scale(0.96);
-            box-shadow: inset 0 3px 6px rgba(0,0,0,0.04);
-            border-bottom-width: 1px;
-        }
-        body.skin-clean .key-area { color: #5a7da8; }  /* 雾霾蓝 */
-        body.skin-clean .predict-area { color: #6b859e; border-bottom-color: rgba(130, 150, 175, 0.25); }
-        body.skin-clean .results-table th { color: #6b859e; border-bottom-color: rgba(130, 150, 175, 0.25); }
-        body.skin-clean .results-table td { border-bottom-color: rgba(160, 180, 200, 0.2); color: #2c3e4e; }
-        body.skin-clean .discard-col { color: #3d6184; }
-        body.skin-clean .remain-key-col { color: #5a7da8; }
-        body.skin-clean .check-btn {
-            background: rgba(250, 252, 255, 0.8);
-            border: 1px solid rgba(150, 170, 190, 0.3);
-            border-bottom: 2px solid rgba(120, 140, 160, 0.2);
-            color: #5a7da8;
-            box-shadow: 0 4px 6px -2px rgba(0,0,0,0.03), inset 0 1px 2px rgba(255,255,255,0.8);
-        }
-        body.skin-clean .check-btn:hover {
-            background: #ffffff;
-            border-color: #8fa6c2;
-            box-shadow: 0 8px 12px -4px rgba(60, 80, 100, 0.1);
-            transform: translateY(-1px);
-        }
-        body.skin-clean .check-btn:active {
-            transform: scale(0.96);
-            box-shadow: inset 0 3px 6px rgba(0,0,0,0.04);
-            border-bottom-width: 1px;
-        }
-        body.skin-clean .theme-toggle-btn {
-            background: rgba(250, 252, 255, 0.8);
-            border: 1px solid rgba(150, 170, 190, 0.3);
-            border-bottom: 2px solid rgba(120, 140, 160, 0.2);
-            box-shadow: 0 4px 6px -2px rgba(0,0,0,0.03), inset 0 1px 2px rgba(255,255,255,0.8);
-            color: #5a7da8;
-        }
-        body.skin-clean .theme-toggle-btn:hover {
-            background: #ffffff;
-            border-color: #8fa6c2;
-            box-shadow: 0 8px 12px -4px rgba(60, 80, 100, 0.1);
-            transform: rotate(15deg);
-        }
-        body.skin-clean .theme-toggle-btn:active {
-            transform: scale(0.96) rotate(0deg);
-            box-shadow: inset 0 3px 6px rgba(0,0,0,0.04);
-            border-bottom-width: 1px;
-        }
-        body.skin-clean .predict-badge {
-            color: #5a7da8;
-            font-weight: 600;
-        }
-        body.skin-clean .empty-message {
-            color: #8fa0b5;
-        }
-
-        /* B站可爱 (保持原样，未改动) */
-        body.skin-bili {
             background: #f5f5f7;
-        }
-        body.skin-bili .tool {
-            background: #ffffff;
-            border: 2px solid #fb7299;
-            box-shadow: 0 10px 20px rgba(251,114,153,0.1);
-        }
-        body.skin-bili .fang-display {
-            background: #ffffff;
-            border: 2px solid #fb7299;
-            color: #1e1e1e;
-            border-radius: 30px 10px 30px 10px;
-        }
-        body.skin-bili .grid-btn {
-            background: #ffffff;
-            border-color: #fb7299;
-            color: #1e1e1e;
-            border-radius: 18px 6px 18px 6px;
-            box-shadow: 0 3px 0 #fb7299;
-        }
-        body.skin-bili .grid-btn:nth-child(odd) {
-            border-color: #23b8ff;
-            box-shadow: 0 3px 0 #23b8ff;
-        }
-        body.skin-bili .key-area {
-            color: #fb7299;
-            font-weight: 650;
-        }
-        body.skin-bili .predict-area {
-            color: #555555;
-            border-bottom-color: #fb7299;
-        }
-        body.skin-bili .results-table th {
-            color: #fb7299;
-            border-bottom-color: #fb7299;
-        }
-        body.skin-bili .results-table td {
-            border-bottom-color: #f0e0e5;
-            color: #1e1e1e;
-        }
-        body.skin-bili .discard-col { color: #23b8ff; }
-        body.skin-bili .remain-key-col { color: #fb7299; }
-        body.skin-bili .check-btn {
-            background: #ffffff;
-            border-color: #23b8ff;
-            color: #23b8ff;
-            box-shadow: 0 3px 0 #23b8ff;
-        }
-        body.skin-bili .theme-toggle-btn {
-            background: #ffffff;
-            border-color: #fb7299;
-            border-bottom: 3px solid #fb7299;
-            box-shadow: 0 3px 0 #fb7299;
-            color: #fb7299;
+            color: #1d1d1f;
+            transition: background 0.4s ease, color 0.4s ease;
         }
 
-        /* 通用组件样式 */
+        @media (prefers-color-scheme: dark) {
+            body { background: #000000; color: #f5f5f7; }
+        }
+
         .tool {
             max-width: 540px;
             width: 100%;
-            border-radius: 36px;
-            padding: 28px 24px 32px;
-            transition: all 0.3s;
-            overflow: visible;
-            position: relative;
+            background: rgba(255, 255, 255, 0.72);
+            backdrop-filter: blur(60px) saturate(200%);
+            border-radius: 40px;
+            padding: 36px 28px 38px;
+            transition: background 0.4s ease;
         }
 
-        .fang-display, .grid-btn, .discard-available, .predict-area, .results-table th, .results-table td, .check-btn, .empty-message, .theme-toggle-btn {
-            user-select: none;
-            -webkit-user-select: none;
-            -webkit-touch-callout: none;
-        }
-        .grid-btn, .check-btn, .theme-toggle-btn {
-            touch-action: manipulation;
-            -webkit-tap-highlight-color: transparent;
+        @media (prefers-color-scheme: dark) {
+            .tool { background: rgba(28, 28, 30, 0.72); }
         }
 
-        .tool-header {
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 16px;
+        .fang-display, .grid-btn, .discard-available, .predict-area, .results-table th, .results-table td, .check-btn, .empty-message {
+            user-select: none; -webkit-user-select: none; -webkit-touch-callout: none;
         }
+        .grid-btn, .check-btn { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
 
-        /* 切换按钮 — 齿轮图标 */
-        .theme-toggle-btn {
-            width: 48px;
-            height: 48px;
-            border-radius: 48px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-            font-size: 1.8rem;
-            line-height: 1;
-            flex-shrink: 0;
-        }
-        .gear-icon {
-            width: 28px;
-            height: 28px;
-            border: 3px solid;
-            border-radius: 50%;
-            position: relative;
-            color: inherit;
-        }
-        .gear-icon::before {
-            content: "✧";
-            font-size: 26px;
-            position: absolute;
-            top: -4px;
-            left: -4px;
-            color: inherit;
-        }
-
+        /* 方区 */
         .fang-display {
-            width: 100%;
-            min-height: 58px;
-            padding: 12px 20px;
-            font-size: 1.15rem;
-            font-weight: 540;
-            font-family: 'SF Mono', 'Menlo', 'Monaco', 'Cascadia Code', monospace;
-            border-radius: 28px;
-            margin-bottom: 24px;
-            cursor: default;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            line-height: 1.4;
-            word-break: break-word;
-            transition: all 0.3s;
-            overflow: hidden;
+            width: 100%; min-height: 58px; padding: 12px 20px;
+            font-size: 1.15rem; font-weight: 520;
+            font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
+            background: rgba(0, 0, 0, 0.03);
+            border-radius: 30px; color: #1d1d1f; outline: none;
+            letter-spacing: 1.5px;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.04);
+            margin-bottom: 28px; cursor: default;
+            display: flex; align-items: center; justify-content: center;
+            text-align: center; line-height: 1.5; word-break: break-word;
+            transition: box-shadow 0.3s; overflow: hidden;
+        }
+        @media (prefers-color-scheme: dark) {
+            .fang-display { background: rgba(255,255,255,0.06); color: #f5f5f7; box-shadow: inset 0 2px 5px rgba(0,0,0,0.3); }
         }
 
-        .point-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 10px;
-            margin: 8px 0 24px;
-            max-width: 100%;
-        }
+        /* 按钮网格 */
+        .point-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin: 8px 0 28px; }
         .grid-btn {
-            aspect-ratio: 1 / 1;
-            font-size: 1.25rem;
-            font-weight: 540;
-            border-radius: 22px;
-            cursor: pointer;
-            transition: all 0.12s cubic-bezier(0.2,0,0,1), background 0.3s, border 0.3s, box-shadow 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'SF Mono', 'Menlo', 'SF Pro Display', monospace;
-            line-height: 1;
-            min-width: 0;
-            overflow: hidden;
+            aspect-ratio: 1 / 1; background: rgba(255,255,255,0.5);
+            border: none; color: #1d1d1f; font-size: 1.25rem; font-weight: 520;
+            border-radius: 24px; cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'SF Mono', 'Menlo', monospace;
+            box-shadow: 0 4px 10px -4px rgba(0,0,0,0.04);
+            backdrop-filter: blur(10px); line-height: 1; min-width: 0; overflow: hidden;
         }
-        .undo-btn {
-            font-size: 1.5rem;
-            font-weight: 400;
+        @media (prefers-color-scheme: dark) {
+            .grid-btn { background: rgba(255,255,255,0.08); color: #f5f5f7; box-shadow: 0 4px 10px -4px rgba(0,0,0,0.3); }
         }
+        .grid-btn:hover {
+            background: rgba(255,255,255,0.8);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px -8px rgba(0,0,0,0.08);
+        }
+        @media (prefers-color-scheme: dark) {
+            .grid-btn:hover { background: rgba(255,255,255,0.18); box-shadow: 0 12px 20px -8px rgba(0,0,0,0.5); }
+        }
+        .grid-btn:active {
+            transform: scale(0.96); background: rgba(0,0,0,0.04);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02); transition: all 0.08s;
+        }
+        .undo-btn { font-size: 1.5rem; font-weight: 380; }
 
+        /* Key区 */
         .discard-available, .key-area {
-            width: 100%;
-            padding: 6px 8px;
-            font-size: 1rem;
-            font-weight: 550;
-            font-family: 'SF Mono', 'Menlo', 'SF Pro Display', monospace;
-            background: transparent;
-            border: none;
-            margin-bottom: 8px;
-            outline: none;
-            text-align: center;
-            letter-spacing: 2px;
-            display: none;
-            opacity: 0.95;
-            line-height: 1.5;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+            width: 100%; padding: 6px 8px; font-size: 1rem; font-weight: 550;
+            font-family: 'SF Mono', 'Menlo', monospace; background: transparent;
+            border: none; color: #0071e3; margin-bottom: 8px; outline: none;
+            text-align: center; letter-spacing: 3px; display: none; opacity: 0.95;
+            line-height: 1.6; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
             transition: color 0.3s;
         }
+        @media (prefers-color-scheme: dark) { .discard-available, .key-area { color: #4499ff; } }
 
+        /* 预测区 */
         .predict-area {
-            width: 100%;
-            padding: 6px 8px 10px;
-            font-size: 0.8rem;
-            font-family: 'SF Mono', 'Menlo', monospace;
-            text-align: center;
-            border-bottom: 1px solid;
-            margin-bottom: 16px;
-            line-height: 1.6;
-            overflow: hidden;
-            transition: all 0.3s;
+            width: 100%; padding: 6px 8px 12px; font-size: 0.8rem;
+            font-family: 'SF Mono', 'Menlo', monospace; color: #86868b;
+            text-align: center; letter-spacing: 0.8px; display: none;
+            border-bottom: 0.5px solid rgba(0,0,0,0.05); margin-bottom: 20px;
+            line-height: 1.8; overflow: hidden; transition: color 0.3s;
+        }
+        @media (prefers-color-scheme: dark) {
+            .predict-area { color: #aeaeb2; border-bottom: 0.5px solid rgba(255,255,255,0.08); }
         }
         .predict-tag { margin: 0 4px; }
-        .predict-badge { font-weight: 600; margin-right: 4px; }
+        .predict-badge { font-weight: 600; margin-right: 4px; color: #0071e3; }
+        @media (prefers-color-scheme: dark) { .predict-badge { color: #4499ff; } }
 
+        /* 表格 */
         .table-wrapper { margin-top: 8px; overflow-x: auto; }
         .results-table { width: 100%; border-collapse: collapse; min-width: 300px; }
         .results-table th {
-            text-align: left; font-weight: 500; font-size: 0.7rem;
-            padding-bottom: 10px; border-bottom: 1px solid;
-            letter-spacing: 0.6px; text-transform: uppercase;
+            text-align: left; font-weight: 480; font-size: 0.7rem;
+            color: #86868b; padding-bottom: 12px;
+            border-bottom: 0.5px solid rgba(0,0,0,0.06); letter-spacing: 0.8px; text-transform: uppercase;
+        }
+        @media (prefers-color-scheme: dark) {
+            .results-table th { color: #aeaeb2; border-bottom: 0.5px solid rgba(255,255,255,0.08); }
         }
         .results-table td {
-            padding: 16px 4px 16px 0; border-bottom: 1px solid;
-            vertical-align: middle; transition: background 0.1s;
+            padding: 16px 0 16px 0;  /* 移除所有单元格的右内边距 */
+            border-bottom: 0.5px solid rgba(0,0,0,0.03);
+            vertical-align: middle;
+            transition: color 0.2s;
+            color: #1d1d1f;
         }
+        /* 为各列单独设置左右内边距，保证阅读舒适度 */
+        .discard-col { padding-left: 0; padding-right: 8px; }
+        .combo-col { padding-right: 8px; }
+        .remain-key-col { padding-right: 0; }
+        .action-col { padding-right: 0; text-align: right; }
+
+        @media (prefers-color-scheme: dark) {
+            .results-table td { border-bottom: 0.5px solid rgba(255,255,255,0.04); color: #f5f5f7; }
+        }
+
+        /* 选中组字色变化 */
+        .results-table tr.selected td {
+            color: #0071e3;
+        }
+        @media (prefers-color-scheme: dark) {
+            .results-table tr.selected td { color: #4499ff; }
+        }
+        .results-table tr.selected .discard-col { color: #005bb5; }
+        @media (prefers-color-scheme: dark) {
+            .results-table tr.selected .discard-col { color: #6db3f2; }
+        }
+
         .results-table tr:last-child td { border-bottom: none; }
-        .discard-col { font-weight: 620; font-size: 1.2rem; width: 45px; }
+        .discard-col { font-weight: 600; color: #0071e3; font-size: 1.2rem; width: 45px; }
+        @media (prefers-color-scheme: dark) { .discard-col { color: #4499ff; } }
         .combo-col { font-family: 'SF Mono', 'Menlo', monospace; font-size: 0.95rem; letter-spacing: 0.5px; word-break: break-word; }
-        .remain-key-col { font-family: 'SF Mono', 'Menlo', monospace; font-size: 0.85rem; padding-right: 12px; white-space: nowrap; font-weight: 510; }
-        .action-col { width: 48px; text-align: right; }
-        .check-btn {
-            width: 48px; height: 48px; border-radius: 48px;
-            display: inline-flex; align-items: center; justify-content: center;
-            font-size: 1.9rem; font-weight: 300;
-            cursor: pointer; transition: all 0.15s;
-            line-height: 1; flex-shrink: 0;
+        .remain-key-col {
+            font-family: 'SF Mono', 'Menlo', monospace; font-size: 0.85rem;
+            color: #0071e3; letter-spacing: 0.3px; padding-right: 0; white-space: nowrap; font-weight: 500;
         }
-        .check-btn.active-feedback { background: #2563eb; border-color: #1e5fd9; color: white; }
+        @media (prefers-color-scheme: dark) { .remain-key-col { color: #4499ff; } }
+        .action-col { width: 52px; }  /* 稍微加宽以容纳按钮完全靠右 */
 
-        .empty-message { text-align: center; padding: 36px 0 20px; font-size: 0.95rem; font-weight: 450; }
+        /* 采纳按钮 — 风格与扑克按钮统一 */
+        .check-btn {
+            width: 44px; height: 44px; border-radius: 22px;  /* 与扑克按钮圆角协调 */
+            display: inline-flex; align-items: center; justify-content: center;
+            background: rgba(255,255,255,0.5);  /* 与扑克按钮相同的背景 */
+            border: none;
+            color: #0071e3;
+            font-size: 1.8rem; font-weight: 320;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+            line-height: 1;
+            box-shadow: 0 4px 10px -4px rgba(0,0,0,0.04);
+            backdrop-filter: blur(10px);
+            flex-shrink: 0;
+        }
+        @media (prefers-color-scheme: dark) {
+            .check-btn {
+                background: rgba(255,255,255,0.08);
+                color: #4499ff;
+                box-shadow: 0 4px 10px -4px rgba(0,0,0,0.3);
+            }
+        }
+        .check-btn:hover {
+            background: rgba(255,255,255,0.8);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px -8px rgba(0,0,0,0.08);
+        }
+        @media (prefers-color-scheme: dark) {
+            .check-btn:hover { background: rgba(255,255,255,0.18); box-shadow: 0 12px 20px -8px rgba(0,0,0,0.5); }
+        }
+        .check-btn:active {
+            transform: scale(0.94);
+            background: rgba(0,0,0,0.04);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            transition: all 0.08s;
+        }
+        .check-btn.active-feedback {
+            background: #0071e3;
+            color: white;
+        }
 
-        /* 横屏适配 */
+        .empty-message { color: #aeaeb2; text-align: center; padding: 38px 0 22px; font-size: 0.95rem; font-weight: 450; }
+        @media (prefers-color-scheme: dark) { .empty-message { color: #636366; } }
+
         @media (orientation: landscape) and (min-height: 400px) {
             body { padding: 16px 12px; }
             .tool {
-                max-width: 900px;
-                display: grid;
+                max-width: 900px; display: grid;
                 grid-template-columns: 1fr 1fr;
-                grid-template-rows: auto auto auto auto auto auto;
-                grid-template-areas: 
-                    "table header"
-                    "table fang"
-                    "table buttons"
-                    "table key"
-                    "table predict"
-                    "table .";
-                gap: 0 20px;
-                padding: 24px 20px 24px;
-                overflow: hidden;
+                grid-template-rows: auto auto auto auto auto;
+                grid-template-areas: "table fang" "table buttons" "table key" "table predict" "table .";
+                gap: 0 20px; padding: 24px 20px 24px; overflow: hidden;
             }
-            .tool-header { grid-area: header; margin-bottom: 12px; }
             .table-wrapper { grid-area: table; margin-top: 0; max-height: 75vh; overflow-y: auto; padding-right: 6px; scrollbar-width: thin; }
             .fang-display { grid-area: fang; margin-bottom: 12px; }
             .point-grid { grid-area: buttons; margin: 4px 0 16px; }
             .discard-available { grid-area: key; margin-bottom: 4px; }
             .predict-area { grid-area: predict; border-bottom: none; margin-bottom: 0; }
-            .results-table td { padding: 12px 4px 12px 0; }
+            .results-table td { padding: 14px 0 14px 0; }
             .combo-col { font-size: 0.9rem; }
         }
     </style>
 </head>
-<body class="skin-clean">
+<body>
 <div class="tool">
-    <div class="tool-header">
-        <div class="theme-toggle-btn" id="skinToggleBtn" title="切换皮肤">
-            <div class="gear-icon"></div>
-        </div>
-    </div>
-
     <div class="fang-display" id="fangDisplay" title="双击清空所有方牌"></div>
     <div class="point-grid" id="buttonGrid"></div>
     <input type="text" id="availableDiscardInput" class="discard-available key-area" readonly>
@@ -382,273 +244,124 @@
 
 <script>
     (() => {
-        const MAX_FANG = 24;
-        const MAX_HISTORY = 30;
-        const POINT_MAP = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+        const MAX_FANG = 24; const MAX_HISTORY = 30;
+        const POINT_MAP = ['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
         const PREDICT_CONFIG = [
-            { label: '必增', minCount: 13 },
-            { label: '≥80%', minCount: 11 },
-            { label: '≥50%', minCount: 7 }
+            { label: '必增', minCount: 13 }, { label: '≥80%', minCount: 11 }, { label: '≥50%', minCount: 7 }
         ];
 
-        // 皮肤系统 (纯净版 / B站可爱)
-        const SKINS = ['clean', 'bili'];
-        let currentSkinIndex = 0;
-
-        const skinToggleBtn = document.getElementById('skinToggleBtn');
-        function setSkin(index) {
-            const body = document.body;
-            body.className = '';
-            body.classList.add(`skin-${SKINS[index]}`);
-            currentSkinIndex = index;
-            localStorage.setItem('fangtong-skin', index);
-        }
-        function nextSkin() {
-            currentSkinIndex = (currentSkinIndex + 1) % SKINS.length;
-            setSkin(currentSkinIndex);
-        }
-        const savedSkin = localStorage.getItem('fangtong-skin');
-        if (savedSkin !== null && (savedSkin === '0' || savedSkin === '1')) {
-            setSkin(parseInt(savedSkin));
-        } else {
-            setSkin(0);
-        }
-        skinToggleBtn.addEventListener('click', (e) => { e.stopPropagation(); nextSkin(); });
-
-        // 计算器核心逻辑
-        let fangArray = [];
-        let historyStack = [];
-        
+        let fangArray = []; let historyStack = [];
         const fangDisplay = document.getElementById('fangDisplay');
         const availableDiscardInput = document.getElementById('availableDiscardInput');
         const predictArea = document.getElementById('predictArea');
         const buttonGrid = document.getElementById('buttonGrid');
         const tableWrapper = document.getElementById('tableWrapper');
 
-        function formatPoint(p) { return POINT_MAP[p-1] || p; }
-        function formatFangArray(arr) { return arr.map(p => formatPoint(p)).join(' '); }
+        function formatPoint(p) { return POINT_MAP[p-1]||p; }
+        function formatFangArray(arr) { return arr.map(p=>formatPoint(p)).join(' '); }
         function updateDisplay() { fangDisplay.textContent = fangArray.length ? formatFangArray(fangArray) : ''; }
-        function pushHistory() {
-            historyStack.push([...fangArray]);
-            if (historyStack.length > MAX_HISTORY) historyStack.shift();
-        }
-        function undo() {
-            if (!historyStack.length) return;
-            fangArray = [...historyStack.pop()];
-            updateDisplay();
-            computeAndRender();
-        }
-        function hardReset() {
-            fangArray = [];
-            historyStack = [];
-            updateDisplay();
-            computeAndRender();
-        }
+        function pushHistory() { historyStack.push([...fangArray]); if(historyStack.length>MAX_HISTORY) historyStack.shift(); }
+        function undo() { if(!historyStack.length) return; fangArray=[...historyStack.pop()]; updateDisplay(); computeAndRender(); }
+        function hardReset() { fangArray=[]; historyStack=[]; updateDisplay(); computeAndRender(); }
         function renderButtons() {
-            let html = '';
-            for (let i=1; i<=13; i++) html += `<div class="grid-btn point-btn" data-point="${i}">${POINT_MAP[i-1]}</div>`;
-            html += `<div class="grid-btn undo-btn" id="undoBtn" title="撤销上一步">←</div>`;
-            buttonGrid.innerHTML = html;
-            document.getElementById('undoBtn').addEventListener('click', undo);
+            let html='';
+            for(let i=1;i<=13;i++) html+=`<div class="grid-btn point-btn" data-point="${i}">${POINT_MAP[i-1]}</div>`;
+            html+=`<div class="grid-btn undo-btn" id="undoBtn" title="撤销上一步">←</div>`;
+            buttonGrid.innerHTML=html; document.getElementById('undoBtn').addEventListener('click', undo);
         }
 
         function getSubsetsForTarget(numbers, target) {
-            const sorted = [...numbers].sort((a,b)=>a-b);
-            const solutions = [];
-            const n = sorted.length;
+            const sorted=[...numbers].sort((a,b)=>a-b); const solutions=[]; const n=sorted.length;
             function backtrack(start, subset, sum) {
-                if (sum === target) { solutions.push([...subset]); return; }
-                if (sum > target) return;
-                for (let i=start; i<n; i++) {
-                    if (sum+sorted[i] > target) break;
-                    if (i>start && sorted[i]===sorted[i-1]) continue;
-                    subset.push(sorted[i]);
-                    backtrack(i+1, subset, sum+sorted[i]);
-                    subset.pop();
-                    if (solutions.length >= 60) return;
-                }
+                if(sum===target) { solutions.push([...subset]); return; } if(sum>target) return;
+                for(let i=start;i<n;i++) { if(sum+sorted[i]>target) break; if(i>start&&sorted[i]===sorted[i-1]) continue; subset.push(sorted[i]); backtrack(i+1, subset, sum+sorted[i]); subset.pop(); if(solutions.length>=60) return; }
             }
-            backtrack(0, [], 0);
-            return solutions;
+            backtrack(0,[],0); return solutions;
         }
         function computeKeySet(fangs) {
-            const keys = new Set();
-            for (let d=1; d<=13; d++) {
-                const target = 36-d;
-                if (target<0) continue;
-                if (getSubsetsForTarget(fangs, target).length) keys.add(d);
-            }
-            return Array.from(keys).sort((a,b)=>a-b);
+            const keys=new Set(); for(let d=1;d<=13;d++) { const t=36-d; if(t<0) continue; if(getSubsetsForTarget(fangs,t).length) keys.add(d); } return Array.from(keys).sort((a,b)=>a-b);
         }
         function computePrediction(currentFangs, currentKeySet) {
-            const freq = new Map();
-            for (let x=1; x<=13; x++) {
-                const newFangs = [...currentFangs, x];
-                const newKeys = computeKeySet(newFangs);
-                const addedKeys = newKeys.filter(k => !currentKeySet.has(k));
-                for (let k of addedKeys) freq.set(k, (freq.get(k)||0)+1);
-            }
-            const result = {};
-            PREDICT_CONFIG.forEach(cfg => result[cfg.label] = []);
-            for (let [k, count] of freq.entries()) {
-                for (let cfg of PREDICT_CONFIG) if (count >= cfg.minCount) { result[cfg.label].push(k); break; }
-            }
-            for (let key in result) result[key].sort((a,b)=>b-a);
-            return result;
+            const freq=new Map(); for(let x=1;x<=13;x++) { const nf=[...currentFangs,x]; const nk=computeKeySet(nf); const added=nk.filter(k=>!currentKeySet.has(k)); for(let k of added) freq.set(k,(freq.get(k)||0)+1); }
+            const result={}; PREDICT_CONFIG.forEach(c=>result[c.label]=[]); for(let [k,c] of freq.entries()) { for(let cfg of PREDICT_CONFIG) if(c>=cfg.minCount) { result[cfg.label].push(k); break; } }
+            for(let key in result) result[key].sort((a,b)=>b-a); return result;
         }
-        function formatSubset(arr) { return arr.map(v => formatPoint(v)).join('·'); }
+        function formatSubset(arr) { return arr.map(v=>formatPoint(v)).join('·'); }
         function formatKeyDisplay(keys, pred=null) {
-            const count = keys.length;
-            if (count===0) return '—';
-            if (count===13) return '完美';
-            const sortedDesc = [...keys].sort((a,b)=>b-a);
-            if (count<=8) return sortedDesc.map(k=>formatPoint(k)).join(' ');
-            const missing = [];
-            for (let i=1; i<=13; i++) if (!keys.includes(i)) missing.push(i);
-            if (!pred) return '缺：'+missing.map(m=>formatPoint(m)).join(' ');
-            const nonEmptyLabels = PREDICT_CONFIG.map(cfg=>cfg.label).filter(l=>pred[l].length);
-            if (nonEmptyLabels.length===1) {
-                const label = nonEmptyLabels[0];
-                const predKeys = pred[label];
-                const missingSorted = [...missing].sort((a,b)=>a-b);
-                const predSorted = [...predKeys].sort((a,b)=>a-b);
-                if (missingSorted.length===predSorted.length && missingSorted.every((v,i)=>v===predSorted[i])) {
-                    return `${label} `+missing.map(m=>formatPoint(m)).join(' ');
-                }
-            }
+            const count=keys.length; if(count===0) return '—'; if(count===13) return '完美'; const sd=[...keys].sort((a,b)=>b-a); if(count<=8) return sd.map(k=>formatPoint(k)).join(' ');
+            const missing=[]; for(let i=1;i<=13;i++) if(!keys.includes(i)) missing.push(i); if(!pred) return '缺：'+missing.map(m=>formatPoint(m)).join(' ');
+            const nl=PREDICT_CONFIG.map(c=>c.label).filter(l=>pred[l].length); if(nl.length===1) { const lb=nl[0]; const pk=pred[lb]; const ms=[...missing].sort((a,b)=>a-b); const ps=[...pk].sort((a,b)=>a-b); if(ms.length===ps.length&&ms.every((v,i)=>v===ps[i])) return `${lb} `+missing.map(m=>formatPoint(m)).join(' '); }
             return '缺：'+missing.map(m=>formatPoint(m)).join(' ');
         }
         function renderPredictArea(pred, shouldShow) {
-            if (!shouldShow) { predictArea.style.display='none'; return; }
-            const hasAny = PREDICT_CONFIG.some(cfg=>pred[cfg.label].length);
-            if (!hasAny) { predictArea.style.display='none'; return; }
-            let html = '';
-            PREDICT_CONFIG.forEach(cfg => {
-                if (pred[cfg.label].length) {
-                    html += `<span class="predict-tag"><span class="predict-badge">${cfg.label}</span>${pred[cfg.label].map(k=>formatPoint(k)).join(' ')}</span>`;
-                }
-            });
-            predictArea.innerHTML = html;
-            predictArea.style.display='block';
+            if(!shouldShow) { predictArea.style.display='none'; return; } const ha=PREDICT_CONFIG.some(c=>pred[c.label].length); if(!ha) { predictArea.style.display='none'; return; }
+            let html=''; PREDICT_CONFIG.forEach(c=>{ if(pred[c.label].length) html+=`<span class="predict-tag"><span class="predict-badge">${c.label}</span>${pred[c.label].map(k=>formatPoint(k)).join(' ')}</span>`; }); predictArea.innerHTML=html; predictArea.style.display='block';
         }
         function computeKeyAndGroups(fangs) {
-            const discardGroups = [];
-            const availableSet = new Set();
-            for (let d=1; d<=13; d++) {
-                const target = 36-d;
-                if (target<0) continue;
-                const subsets = getSubsetsForTarget(fangs, target);
-                if (subsets.length) {
-                    availableSet.add(d);
-                    const subsetsWithRemain = subsets.map(sub => {
-                        const rem = [...fangs];
-                        for (let v of sub) { const i=rem.indexOf(v); if (i!==-1) rem.splice(i,1); }
-                        const rk = computeKeySet(rem);
-                        return { subset: sub, remainCount: rk.length, remainKeys: rk };
-                    });
-                    subsetsWithRemain.sort((a,b)=>b.remainCount-a.remainCount);
-                    discardGroups.push({ discard: d, subsetsWithRemain });
-                }
-            }
-            discardGroups.sort((a,b)=>b.discard-a.discard);
-            const currentKeys = Array.from(availableSet).sort((a,b)=>a-b);
-            return { discardGroups, currentKeys };
+            const dg=[]; const av=new Set(); for(let d=1;d<=13;d++) { const t=36-d; if(t<0) continue; const ss=getSubsetsForTarget(fangs,t); if(ss.length) { av.add(d); const swr=ss.map(sub=>{ const rem=[...fangs]; for(let v of sub) { const i=rem.indexOf(v); if(i!==-1) rem.splice(i,1); } const rk=computeKeySet(rem); return {subset:sub, remainCount:rk.length, remainKeys:rk}; }); swr.sort((a,b)=>b.remainCount-a.remainCount); dg.push({discard:d, subsetsWithRemain:swr}); } }
+            dg.sort((a,b)=>b.discard-a.discard); const ck=Array.from(av).sort((a,b)=>a-b); return {discardGroups:dg, currentKeys:ck};
         }
-        function buildTableHTML(discardGroups) {
-            let html = `<table class="results-table"><thead><tr><th>弃</th><th>移去方</th><th>余</th><th></th></tr></thead><tbody>`;
-            for (let g of discardGroups) {
-                const d=g.discard, subsets=g.subsetsWithRemain, sym=formatPoint(d);
-                const show=subsets.slice(0,8);
-                for (let i=0; i<show.length; i++) {
-                    const item=show[i], sub=item.subset;
-                    const subsetStr = JSON.stringify(sub).replace(/"/g,'&quot;');
-                    html += `<tr>${i===0?`<td class="discard-col" rowspan="${show.length}">${sym}</td>`:''}`;
-                    html += `<td class="combo-col">${formatSubset(sub)}</td>`;
-                    html += `<td class="remain-key-col">${formatKeyDisplay(item.remainKeys)}</td>`;
-                    html += `<td class="action-col"><div class="check-btn" data-discard="${d}" data-subset="${subsetStr}">✓</div></td></tr>`;
+        function buildTableHTML(dg) {
+            let html=`<table class="results-table"><thead><tr><th>弃</th><th>移去方</th><th>余</th><th></th></tr></thead><tbody>`;
+            let groupId = 0;
+            for(let g of dg) {
+                groupId++;
+                const d=g.discard,swr=g.subsetsWithRemain,sym=formatPoint(d);
+                const show=swr.slice(0,8);
+                for(let i=0;i<show.length;i++) {
+                    const item=show[i],sub=item.subset;
+                    const ss=JSON.stringify(sub).replace(/"/g,'&quot;');
+                    html+=`<tr data-group="${groupId}">`;
+                    if(i===0) html+=`<td class="discard-col" rowspan="${show.length}">${sym}</td>`;
+                    html+=`<td class="combo-col">${formatSubset(sub)}</td>`;
+                    html+=`<td class="remain-key-col">${formatKeyDisplay(item.remainKeys)}</td>`;
+                    html+=`<td class="action-col"><div class="check-btn" data-discard="${d}" data-subset="${ss}">✓</div></td></tr>`;
                 }
-                if (subsets.length > 8) html += `<tr><td class="combo-col" colspan="3" style="opacity:0.7;font-size:0.8rem;padding-top:8px;">… 还有 ${subsets.length-8} 种组合</td><td></td></tr>`;
+                if(swr.length>8) html+=`<tr data-group="${groupId}"><td class="combo-col" colspan="3" style="opacity:0.7;font-size:0.8rem;padding-top:8px;">… 还有 ${swr.length-8} 种组合</td><td></td></tr>`;
             }
-            html += `</tbody></table>`;
+            html+=`</tbody></table>`;
             return html;
         }
-        function adoptCombination(discard, subset, btn) {
-            if (btn) { btn.classList.add('active-feedback'); setTimeout(()=>btn.classList.remove('active-feedback'),120); }
-            pushHistory();
-            let newFangs = [...fangArray];
-            for (let val of subset) { const idx=newFangs.indexOf(val); if (idx!==-1) newFangs.splice(idx,1); }
-            fangArray = newFangs;
-            updateDisplay();
-            computeAndRender();
-        }
+        function adoptCombination(discard, subset, btn) { if(btn) { btn.classList.add('active-feedback'); setTimeout(()=>btn.classList.remove('active-feedback'),120); } pushHistory(); let nf=[...fangArray]; for(let v of subset) { const i=nf.indexOf(v); if(i!==-1) nf.splice(i,1); } fangArray=nf; updateDisplay(); computeAndRender(); }
         function computeAndRender() {
-            const fangs = [...fangArray];
-            if (!fangs.length) {
-                tableWrapper.innerHTML = `<div class="empty-message">请选择方牌</div>`;
-                availableDiscardInput.style.display='none';
-                predictArea.style.display='none';
-                return;
-            }
-            const { discardGroups, currentKeys } = computeKeyAndGroups(fangs);
-            const currentKeySet = new Set(currentKeys);
-            const pred = computePrediction(fangs, currentKeySet);
-            let keyDisplayValue = ''; let showPredict = true;
-            if (currentKeys.length) {
-                if (currentKeys.length > 8) {
-                    const missing = [];
-                    for (let i=1; i<=13; i++) if (!currentKeySet.has(i)) missing.push(i);
-                    const nonEmptyLabels = PREDICT_CONFIG.map(cfg=>cfg.label).filter(l=>pred[l].length);
-                    if (nonEmptyLabels.length===1) {
-                        const label = nonEmptyLabels[0];
-                        const predKeys = pred[label];
-                        const missingSorted = [...missing].sort((a,b)=>a-b);
-                        const predSorted = [...predKeys].sort((a,b)=>a-b);
-                        if (missingSorted.length===predSorted.length && missingSorted.every((v,i)=>v===predSorted[i])) {
-                            keyDisplayValue = `${label} `+missing.map(m=>formatPoint(m)).join(' ');
-                            showPredict = false;
-                        }
+            const fangs=[...fangArray]; if(!fangs.length) { tableWrapper.innerHTML='<div class="empty-message">请选择方牌</div>'; availableDiscardInput.style.display='none'; predictArea.style.display='none'; return; }
+            const {discardGroups, currentKeys}=computeKeyAndGroups(fangs); const cks=new Set(currentKeys); const pred=computePrediction(fangs,cks); let kdv=''; let sp=true;
+            if(currentKeys.length) { if(currentKeys.length>8) { const ms=[]; for(let i=1;i<=13;i++) if(!cks.has(i)) ms.push(i); const nl=PREDICT_CONFIG.map(c=>c.label).filter(l=>pred[l].length); if(nl.length===1) { const lb=nl[0]; const pk=pred[lb]; const mss=[...ms].sort((a,b)=>a-b); const pks=[...pk].sort((a,b)=>a-b); if(mss.length===pks.length&&mss.every((v,i)=>v===pks[i])) { kdv=`${lb} `+ms.map(m=>formatPoint(m)).join(' '); sp=false; } } } if(!kdv) kdv=formatKeyDisplay(currentKeys,pred); availableDiscardInput.value=kdv; availableDiscardInput.style.display='block'; renderPredictArea(pred,sp); } else { availableDiscardInput.style.display='none'; predictArea.style.display='none'; }
+            if(!discardGroups.length) { tableWrapper.innerHTML='<div class="empty-message">无解</div>'; return; }
+            tableWrapper.innerHTML=buildTableHTML(discardGroups);
+
+            // 点击选中 — 字色变化
+            const rows = tableWrapper.querySelectorAll('tr[data-group]');
+            const groups = {};
+            rows.forEach(row => {
+                const gid = row.getAttribute('data-group');
+                if (!groups[gid]) groups[gid] = [];
+                groups[gid].push(row);
+            });
+
+            let currentSelectedGroup = null;
+            const allRows = tableWrapper.querySelectorAll('tr[data-group]');
+            allRows.forEach(row => {
+                row.addEventListener('click', (e) => {
+                    if (e.target.closest('.check-btn')) return;
+                    const groupId = row.getAttribute('data-group');
+                    if (currentSelectedGroup === groupId) {
+                        groups[groupId].forEach(r => r.classList.remove('selected'));
+                        currentSelectedGroup = null;
+                    } else {
+                        allRows.forEach(r => r.classList.remove('selected'));
+                        groups[groupId].forEach(r => r.classList.add('selected'));
+                        currentSelectedGroup = groupId;
                     }
-                }
-                if (!keyDisplayValue) keyDisplayValue = formatKeyDisplay(currentKeys, pred);
-                availableDiscardInput.value = keyDisplayValue;
-                availableDiscardInput.style.display = 'block';
-                renderPredictArea(pred, showPredict);
-            } else {
-                availableDiscardInput.style.display = 'none';
-                predictArea.style.display = 'none';
-            }
-            if (!discardGroups.length) {
-                tableWrapper.innerHTML = `<div class="empty-message">无解</div>`;
-                return;
-            }
-            tableWrapper.innerHTML = buildTableHTML(discardGroups);
-            document.querySelectorAll('.check-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const discard = parseInt(btn.dataset.discard);
-                    const subsetRaw = btn.dataset.subset;
-                    if (!subsetRaw) return;
-                    try { adoptCombination(discard, JSON.parse(subsetRaw), btn); } catch(e) {}
                 });
             });
+
+            document.querySelectorAll('.check-btn').forEach(btn=>{ btn.addEventListener('click',(e)=>{ e.stopPropagation(); const d=parseInt(btn.dataset.discard); const sr=btn.dataset.subset; if(!sr) return; try { adoptCombination(d,JSON.parse(sr),btn); } catch(e){} }); });
         }
-        function addFang(point) {
-            if (fangArray.length >= MAX_FANG) { alert(`最多只能添加 ${MAX_FANG} 张方牌`); return; }
-            if (point>=1 && point<=13) { pushHistory(); fangArray.push(point); updateDisplay(); computeAndRender(); }
-        }
-
-        buttonGrid.addEventListener('click', (e) => {
-            const btn = e.target.closest('.point-btn');
-            if (!btn) return;
-            const p = parseInt(btn.dataset.point);
-            if (!isNaN(p)) addFang(p);
-        });
-
-        fangDisplay.addEventListener('dblclick', (e) => { e.preventDefault(); hardReset(); });
-
-        renderButtons();
-        updateDisplay();
-        computeAndRender();
+        function addFang(point) { if(fangArray.length>=MAX_FANG) { alert(`最多只能添加 ${MAX_FANG} 张方牌`); return; } if(point>=1&&point<=13) { pushHistory(); fangArray.push(point); updateDisplay(); computeAndRender(); } }
+        buttonGrid.addEventListener('click',(e)=>{ const btn=e.target.closest('.point-btn'); if(!btn) return; const p=parseInt(btn.dataset.point); if(!isNaN(p)) addFang(p); });
+        fangDisplay.addEventListener('dblclick',(e)=>{ e.preventDefault(); hardReset(); });
+        renderButtons(); updateDisplay(); computeAndRender();
     })();
 </script>
 </body>
