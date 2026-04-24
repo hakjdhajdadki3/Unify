@@ -3,12 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>方统 · 苹果哲学 v7.0.5</title>
+    <title>方统 · 极简 v9.0.0</title>
     <style>
-        * {
+        /* ========== 全局重置与设计变量 ========== */
+        *,
+        *::before,
+        *::after {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+        }
+
+        :root {
+            --bg-primary: #f5f5f7;
+            --bg-card: rgba(255, 255, 255, 0.72);
+            --bg-card-hover: rgba(255, 255, 255, 0.85);
+            --bg-input: rgba(0, 0, 0, 0.03);
+            --bg-button: rgba(255, 255, 255, 0.45);
+            --color-primary: #0071e3;
+            --color-primary-dark: #005bb5;
+            --color-text: #1d1d1f;
+            --color-secondary: #86868b;
+            --color-border: rgba(0, 0, 0, 0.06);
+            --shadow-card: 0 20px 40px -12px rgba(0,0,0,0.06);
+            --shadow-button: 0 4px 10px -4px rgba(0,0,0,0.04);
+            --shadow-button-hover: 0 12px 20px -8px rgba(0,0,0,0.08);
+            --transition-smooth: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+            --transition-quick: all 0.08s;
+            --radius-lg: 40px;
+            --radius-md: 30px;
+            --radius-sm: 24px;
+            --radius-full: 50%;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-primary: #000000;
+                --bg-card: rgba(28, 28, 30, 0.72);
+                --bg-card-hover: rgba(40, 40, 42, 0.8);
+                --bg-input: rgba(255, 255, 255, 0.06);
+                --bg-button: rgba(255, 255, 255, 0.08);
+                --color-primary: #4499ff;
+                --color-primary-dark: #6db3f2;
+                --color-text: #f5f5f7;
+                --color-secondary: #aeaeb2;
+                --color-border: rgba(255, 255, 255, 0.08);
+                --shadow-card: 0 20px 40px -12px rgba(0,0,0,0.4);
+                --shadow-button: 0 4px 10px -4px rgba(0,0,0,0.3);
+                --shadow-button-hover: 0 12px 20px -8px rgba(0,0,0,0.5);
+            }
         }
 
         body {
@@ -18,351 +61,750 @@
             align-items: flex-start;
             min-height: 100vh;
             padding: 24px 16px;
-            background: #f5f5f7;
-            color: #1d1d1f;
+            background: var(--bg-primary);
+            color: var(--color-text);
             transition: background 0.4s ease, color 0.4s ease;
-        }
-
-        @media (prefers-color-scheme: dark) {
-            body { background: #000000; color: #f5f5f7; }
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         .tool {
             max-width: 540px;
             width: 100%;
-            background: rgba(255, 255, 255, 0.72);
-            backdrop-filter: blur(60px) saturate(200%);
-            border-radius: 40px;
+            background: var(--bg-card);
+            backdrop-filter: blur(60px) saturate(180%);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-card);
             padding: 36px 28px 38px;
-            transition: background 0.4s ease;
+            transition: background 0.4s ease, box-shadow 0.3s ease;
         }
 
-        @media (prefers-color-scheme: dark) {
-            .tool { background: rgba(28, 28, 30, 0.72); }
+        /* ========== 通用禁止选中 ========== */
+        .fang-display,
+        .grid-btn,
+        .key-area,
+        .predict-area,
+        .results-table th,
+        .results-table td,
+        .check-btn,
+        .empty-message {
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
         }
 
-        .fang-display, .grid-btn, .discard-available, .predict-area, .results-table th, .results-table td, .check-btn, .empty-message {
-            user-select: none; -webkit-user-select: none; -webkit-touch-callout: none;
+        .grid-btn,
+        .check-btn {
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            cursor: pointer;
         }
-        .grid-btn, .check-btn { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
 
-        /* 方区 */
+        /* ========== 方区 ========== */
         .fang-display {
-            width: 100%; min-height: 58px; padding: 12px 20px;
-            font-size: 1.15rem; font-weight: 520;
+            width: 100%;
+            min-height: 58px;
+            padding: 12px 20px;
+            font-size: 1.15rem;
+            font-weight: 520;
             font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
-            background: rgba(0, 0, 0, 0.03);
-            border-radius: 30px; color: #1d1d1f; outline: none;
+            background: var(--bg-input);
+            border: none;
+            border-radius: var(--radius-md);
+            color: var(--color-text);
             letter-spacing: 1.5px;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.04);
-            margin-bottom: 28px; cursor: default;
-            display: flex; align-items: center; justify-content: center;
-            text-align: center; line-height: 1.5; word-break: break-word;
-            transition: box-shadow 0.3s; overflow: hidden;
-        }
-        @media (prefers-color-scheme: dark) {
-            .fang-display { background: rgba(255,255,255,0.06); color: #f5f5f7; box-shadow: inset 0 2px 5px rgba(0,0,0,0.3); }
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.04);
+            margin-bottom: 28px;
+            cursor: default;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            line-height: 1.5;
+            word-break: break-word;
+            transition: box-shadow 0.3s ease;
+            overflow: hidden;
         }
 
-        /* 按钮网格 */
-        .point-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin: 8px 0 28px; }
+        /* ========== 按钮网格 ========== */
+        .point-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            margin: 8px 0 28px;
+        }
+
         .grid-btn {
-            aspect-ratio: 1 / 1; background: rgba(255,255,255,0.5);
-            border: none; color: #1d1d1f; font-size: 1.25rem; font-weight: 520;
-            border-radius: 24px; cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
-            display: flex; align-items: center; justify-content: center;
+            aspect-ratio: 1 / 1;
+            background: var(--bg-button);
+            border: none;
+            color: var(--color-text);
+            font-size: 1.25rem;
+            font-weight: 520;
+            border-radius: var(--radius-sm);
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-family: 'SF Mono', 'Menlo', monospace;
-            box-shadow: 0 4px 10px -4px rgba(0,0,0,0.04);
-            backdrop-filter: blur(10px); line-height: 1; min-width: 0; overflow: hidden;
+            box-shadow: var(--shadow-button);
+            backdrop-filter: blur(10px);
+            line-height: 1;
+            min-width: 0;
+            overflow: hidden;
         }
-        @media (prefers-color-scheme: dark) {
-            .grid-btn { background: rgba(255,255,255,0.08); color: #f5f5f7; box-shadow: 0 4px 10px -4px rgba(0,0,0,0.3); }
-        }
+
         .grid-btn:hover {
-            background: rgba(255,255,255,0.8);
+            background: var(--bg-card-hover);
             transform: translateY(-2px);
-            box-shadow: 0 12px 20px -8px rgba(0,0,0,0.08);
+            box-shadow: var(--shadow-button-hover);
         }
-        @media (prefers-color-scheme: dark) {
-            .grid-btn:hover { background: rgba(255,255,255,0.18); box-shadow: 0 12px 20px -8px rgba(0,0,0,0.5); }
-        }
+
         .grid-btn:active {
-            transform: scale(0.96); background: rgba(0,0,0,0.04);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02); transition: all 0.08s;
+            transform: scale(0.96);
+            background: rgba(0,0,0,0.04);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            transition: var(--transition-quick);
         }
-        .undo-btn { font-size: 1.5rem; font-weight: 380; }
 
-        /* Key区 */
-        .discard-available, .key-area {
-            width: 100%; padding: 6px 8px; font-size: 1rem; font-weight: 550;
-            font-family: 'SF Mono', 'Menlo', monospace; background: transparent;
-            border: none; color: #0071e3; margin-bottom: 8px; outline: none;
-            text-align: center; letter-spacing: 3px; display: none; opacity: 0.95;
-            line-height: 1.6; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-            transition: color 0.3s;
+        .undo-btn {
+            font-size: 1.5rem;
+            font-weight: 380;
         }
-        @media (prefers-color-scheme: dark) { .discard-available, .key-area { color: #4499ff; } }
 
-        /* 预测区 */
+        /* ========== Key区 ========== */
+        .key-area {
+            width: 100%;
+            padding: 6px 8px;
+            font-size: 1rem;
+            font-weight: 550;
+            font-family: 'SF Mono', 'Menlo', monospace;
+            background: transparent;
+            border: none;
+            color: var(--color-primary);
+            margin-bottom: 8px;
+            outline: none;
+            text-align: center;
+            letter-spacing: 3px;
+            display: none;
+            opacity: 0.95;
+            line-height: 1.6;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            transition: color 0.3s ease;
+        }
+
+        /* ========== 预测区 ========== */
         .predict-area {
-            width: 100%; padding: 6px 8px 12px; font-size: 0.8rem;
-            font-family: 'SF Mono', 'Menlo', monospace; color: #86868b;
-            text-align: center; letter-spacing: 0.8px; display: none;
-            border-bottom: 0.5px solid rgba(0,0,0,0.05); margin-bottom: 20px;
-            line-height: 1.8; overflow: hidden; transition: color 0.3s;
+            width: 100%;
+            padding: 6px 8px 12px;
+            font-size: 0.8rem;
+            font-family: 'SF Mono', 'Menlo', monospace;
+            color: var(--color-secondary);
+            text-align: center;
+            letter-spacing: 0.8px;
+            display: none;
+            border-bottom: 0.5px solid var(--color-border);
+            margin-bottom: 20px;
+            line-height: 1.8;
+            overflow: hidden;
+            transition: color 0.3s ease;
         }
-        @media (prefers-color-scheme: dark) {
-            .predict-area { color: #aeaeb2; border-bottom: 0.5px solid rgba(255,255,255,0.08); }
-        }
-        .predict-tag { margin: 0 4px; }
-        .predict-badge { font-weight: 600; margin-right: 4px; color: #0071e3; }
-        @media (prefers-color-scheme: dark) { .predict-badge { color: #4499ff; } }
 
-        /* 表格 */
-        .table-wrapper { margin-top: 8px; overflow-x: auto; }
-        .results-table { width: 100%; border-collapse: collapse; min-width: 300px; }
+        .predict-tag {
+            margin: 0 4px;
+        }
+
+        .predict-badge {
+            font-weight: 600;
+            margin-right: 4px;
+            color: var(--color-primary);
+        }
+
+        /* ========== 表格 ========== */
+        .table-wrapper {
+            margin-top: 8px;
+            overflow-x: auto;
+        }
+
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 300px;
+        }
+
         .results-table th {
-            text-align: left; font-weight: 480; font-size: 0.7rem;
-            color: #86868b; padding-bottom: 12px;
-            border-bottom: 0.5px solid rgba(0,0,0,0.06); letter-spacing: 0.8px; text-transform: uppercase;
+            text-align: left;
+            font-weight: 480;
+            font-size: 0.7rem;
+            color: var(--color-secondary);
+            padding: 0 0 12px 0;
+            border-bottom: 0.5px solid var(--color-border);
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
         }
-        @media (prefers-color-scheme: dark) {
-            .results-table th { color: #aeaeb2; border-bottom: 0.5px solid rgba(255,255,255,0.08); }
-        }
+
         .results-table td {
-            padding: 16px 0 16px 0;  /* 移除所有单元格的右内边距 */
+            padding: 16px 0;
             border-bottom: 0.5px solid rgba(0,0,0,0.03);
             vertical-align: middle;
-            transition: color 0.2s;
-            color: #1d1d1f;
+            transition: color 0.2s ease;
+            color: var(--color-text);
         }
-        /* 为各列单独设置左右内边距，保证阅读舒适度 */
-        .discard-col { padding-left: 0; padding-right: 8px; }
-        .combo-col { padding-right: 8px; }
-        .remain-key-col { padding-right: 0; }
-        .action-col { padding-right: 0; text-align: right; }
 
         @media (prefers-color-scheme: dark) {
-            .results-table td { border-bottom: 0.5px solid rgba(255,255,255,0.04); color: #f5f5f7; }
+            .results-table td {
+                border-bottom-color: rgba(255,255,255,0.04);
+            }
         }
 
-        /* 选中组字色变化 */
+        /* 点击选中 — 字色变化 */
         .results-table tr.selected td {
-            color: #0071e3;
-        }
-        @media (prefers-color-scheme: dark) {
-            .results-table tr.selected td { color: #4499ff; }
-        }
-        .results-table tr.selected .discard-col { color: #005bb5; }
-        @media (prefers-color-scheme: dark) {
-            .results-table tr.selected .discard-col { color: #6db3f2; }
+            color: var(--color-primary);
         }
 
-        .results-table tr:last-child td { border-bottom: none; }
-        .discard-col { font-weight: 600; color: #0071e3; font-size: 1.2rem; width: 45px; }
-        @media (prefers-color-scheme: dark) { .discard-col { color: #4499ff; } }
-        .combo-col { font-family: 'SF Mono', 'Menlo', monospace; font-size: 0.95rem; letter-spacing: 0.5px; word-break: break-word; }
+        .results-table tr.selected .discard-col {
+            color: var(--color-primary-dark);
+        }
+
+        .results-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .discard-col {
+            font-weight: 600;
+            color: var(--color-primary);
+            font-size: 1.2rem;
+            width: 45px;
+            padding-right: 8px;
+        }
+
+        .combo-col {
+            font-family: 'SF Mono', 'Menlo', monospace;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            word-break: break-word;
+            padding-right: 8px;
+        }
+
         .remain-key-col {
-            font-family: 'SF Mono', 'Menlo', monospace; font-size: 0.85rem;
-            color: #0071e3; letter-spacing: 0.3px; padding-right: 0; white-space: nowrap; font-weight: 500;
+            font-family: 'SF Mono', 'Menlo', monospace;
+            font-size: 0.85rem;
+            color: var(--color-primary);
+            letter-spacing: 0.3px;
+            padding-right: 0;
+            white-space: nowrap;
+            font-weight: 500;
         }
-        @media (prefers-color-scheme: dark) { .remain-key-col { color: #4499ff; } }
-        .action-col { width: 52px; }  /* 稍微加宽以容纳按钮完全靠右 */
 
-        /* 采纳按钮 — 风格与扑克按钮统一 */
+        .action-col {
+            width: 52px;
+            padding-right: 0;
+        }
+
+        /* ========== 采纳按钮 ========== */
         .check-btn {
-            width: 44px; height: 44px; border-radius: 22px;  /* 与扑克按钮圆角协调 */
-            display: inline-flex; align-items: center; justify-content: center;
-            background: rgba(255,255,255,0.5);  /* 与扑克按钮相同的背景 */
+            width: 44px;
+            height: 44px;
+            border-radius: 22px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-button);
             border: none;
-            color: #0071e3;
-            font-size: 1.8rem; font-weight: 320;
+            color: var(--color-primary);
+            font-size: 1.8rem;
+            font-weight: 320;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+            transition: var(--transition-smooth);
             line-height: 1;
-            box-shadow: 0 4px 10px -4px rgba(0,0,0,0.04);
+            box-shadow: var(--shadow-button);
             backdrop-filter: blur(10px);
             flex-shrink: 0;
         }
-        @media (prefers-color-scheme: dark) {
-            .check-btn {
-                background: rgba(255,255,255,0.08);
-                color: #4499ff;
-                box-shadow: 0 4px 10px -4px rgba(0,0,0,0.3);
-            }
-        }
+
         .check-btn:hover {
-            background: rgba(255,255,255,0.8);
+            background: var(--bg-card-hover);
             transform: translateY(-2px);
-            box-shadow: 0 12px 20px -8px rgba(0,0,0,0.08);
+            box-shadow: var(--shadow-button-hover);
         }
-        @media (prefers-color-scheme: dark) {
-            .check-btn:hover { background: rgba(255,255,255,0.18); box-shadow: 0 12px 20px -8px rgba(0,0,0,0.5); }
-        }
+
         .check-btn:active {
             transform: scale(0.94);
             background: rgba(0,0,0,0.04);
             box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-            transition: all 0.08s;
+            transition: var(--transition-quick);
         }
+
         .check-btn.active-feedback {
-            background: #0071e3;
+            background: var(--color-primary);
             color: white;
         }
 
-        .empty-message { color: #aeaeb2; text-align: center; padding: 38px 0 22px; font-size: 0.95rem; font-weight: 450; }
-        @media (prefers-color-scheme: dark) { .empty-message { color: #636366; } }
+        .check-btn.active-feedback:hover {
+            background: var(--color-primary-dark);
+        }
 
+        /* ========== 空状态 ========== */
+        .empty-message {
+            color: var(--color-secondary);
+            text-align: center;
+            padding: 38px 0 22px;
+            font-size: 0.95rem;
+            font-weight: 450;
+        }
+
+        /* ========== 横屏适配 ========== */
         @media (orientation: landscape) and (min-height: 400px) {
-            body { padding: 16px 12px; }
+            body {
+                padding: 16px 12px;
+            }
+
             .tool {
-                max-width: 900px; display: grid;
+                max-width: 900px;
+                display: grid;
                 grid-template-columns: 1fr 1fr;
                 grid-template-rows: auto auto auto auto auto;
-                grid-template-areas: "table fang" "table buttons" "table key" "table predict" "table .";
-                gap: 0 20px; padding: 24px 20px 24px; overflow: hidden;
+                grid-template-areas:
+                    "table fang"
+                    "table buttons"
+                    "table key"
+                    "table predict"
+                    "table .";
+                gap: 0 20px;
+                padding: 24px 20px;
+                overflow: hidden;
             }
-            .table-wrapper { grid-area: table; margin-top: 0; max-height: 75vh; overflow-y: auto; padding-right: 6px; scrollbar-width: thin; }
-            .fang-display { grid-area: fang; margin-bottom: 12px; }
-            .point-grid { grid-area: buttons; margin: 4px 0 16px; }
-            .discard-available { grid-area: key; margin-bottom: 4px; }
-            .predict-area { grid-area: predict; border-bottom: none; margin-bottom: 0; }
-            .results-table td { padding: 14px 0 14px 0; }
-            .combo-col { font-size: 0.9rem; }
+
+            .table-wrapper {
+                grid-area: table;
+                margin-top: 0;
+                max-height: 75vh;
+                overflow-y: auto;
+                scrollbar-width: thin;
+            }
+
+            .fang-display {
+                grid-area: fang;
+                margin-bottom: 20px;
+            }
+
+            .point-grid {
+                grid-area: buttons;
+                margin: 4px 0 20px;
+            }
+
+            .key-area {
+                grid-area: key;
+                margin-bottom: 4px;
+            }
+
+            .predict-area {
+                grid-area: predict;
+                border-bottom: none;
+                margin-bottom: 0;
+            }
+
+            .results-table td {
+                padding: 14px 0;
+            }
+
+            .combo-col {
+                font-size: 0.9rem;
+            }
         }
     </style>
 </head>
 <body>
-<div class="tool">
-    <div class="fang-display" id="fangDisplay" title="双击清空所有方牌"></div>
-    <div class="point-grid" id="buttonGrid"></div>
-    <input type="text" id="availableDiscardInput" class="discard-available key-area" readonly>
-    <div class="predict-area" id="predictArea"></div>
-    <div class="table-wrapper" id="tableWrapper"></div>
-</div>
+    <div class="tool">
+        <div class="fang-display" id="fangDisplay" title="双击清空所有方牌"></div>
+        <div class="point-grid" id="buttonGrid"></div>
+        <input type="text" id="availableDiscardInput" class="key-area" readonly aria-label="可弃置牌">
+        <div class="predict-area" id="predictArea" role="status" aria-live="polite"></div>
+        <div class="table-wrapper" id="tableWrapper"></div>
+    </div>
 
-<script>
-    (() => {
-        const MAX_FANG = 24; const MAX_HISTORY = 30;
-        const POINT_MAP = ['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
-        const PREDICT_CONFIG = [
-            { label: '必增', minCount: 13 }, { label: '≥80%', minCount: 11 }, { label: '≥50%', minCount: 7 }
-        ];
+    <script>
+        (() => {
+            // ========== 配置常量 ==========
+            const MAX_FANG = 24;
+            const MAX_HISTORY = 30;
+            const POINT_MAP = ['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
+            const PREDICT_CONFIG = [
+                { label: '必增', minCount: 13 },
+                { label: '≥80%', minCount: 11 },
+                { label: '≥50%', minCount: 7 },
+            ];
 
-        let fangArray = []; let historyStack = [];
-        const fangDisplay = document.getElementById('fangDisplay');
-        const availableDiscardInput = document.getElementById('availableDiscardInput');
-        const predictArea = document.getElementById('predictArea');
-        const buttonGrid = document.getElementById('buttonGrid');
-        const tableWrapper = document.getElementById('tableWrapper');
+            // ========== 状态管理 ==========
+            let fangArray = [];
+            let historyStack = [];
 
-        function formatPoint(p) { return POINT_MAP[p-1]||p; }
-        function formatFangArray(arr) { return arr.map(p=>formatPoint(p)).join(' '); }
-        function updateDisplay() { fangDisplay.textContent = fangArray.length ? formatFangArray(fangArray) : ''; }
-        function pushHistory() { historyStack.push([...fangArray]); if(historyStack.length>MAX_HISTORY) historyStack.shift(); }
-        function undo() { if(!historyStack.length) return; fangArray=[...historyStack.pop()]; updateDisplay(); computeAndRender(); }
-        function hardReset() { fangArray=[]; historyStack=[]; updateDisplay(); computeAndRender(); }
-        function renderButtons() {
-            let html='';
-            for(let i=1;i<=13;i++) html+=`<div class="grid-btn point-btn" data-point="${i}">${POINT_MAP[i-1]}</div>`;
-            html+=`<div class="grid-btn undo-btn" id="undoBtn" title="撤销上一步">←</div>`;
-            buttonGrid.innerHTML=html; document.getElementById('undoBtn').addEventListener('click', undo);
-        }
+            // ========== DOM 引用 ==========
+            const fangDisplay = document.getElementById('fangDisplay');
+            const availableDiscardInput = document.getElementById('availableDiscardInput');
+            const predictArea = document.getElementById('predictArea');
+            const buttonGrid = document.getElementById('buttonGrid');
+            const tableWrapper = document.getElementById('tableWrapper');
 
-        function getSubsetsForTarget(numbers, target) {
-            const sorted=[...numbers].sort((a,b)=>a-b); const solutions=[]; const n=sorted.length;
-            function backtrack(start, subset, sum) {
-                if(sum===target) { solutions.push([...subset]); return; } if(sum>target) return;
-                for(let i=start;i<n;i++) { if(sum+sorted[i]>target) break; if(i>start&&sorted[i]===sorted[i-1]) continue; subset.push(sorted[i]); backtrack(i+1, subset, sum+sorted[i]); subset.pop(); if(solutions.length>=60) return; }
+            // ========== 工具函数 ==========
+            const formatPoint = (p) => POINT_MAP[p - 1] || p;
+            const formatFangArray = (arr) => arr.map(formatPoint).join(' ');
+
+            function updateDisplay() {
+                fangDisplay.textContent = fangArray.length ? formatFangArray(fangArray) : '';
             }
-            backtrack(0,[],0); return solutions;
-        }
-        function computeKeySet(fangs) {
-            const keys=new Set(); for(let d=1;d<=13;d++) { const t=36-d; if(t<0) continue; if(getSubsetsForTarget(fangs,t).length) keys.add(d); } return Array.from(keys).sort((a,b)=>a-b);
-        }
-        function computePrediction(currentFangs, currentKeySet) {
-            const freq=new Map(); for(let x=1;x<=13;x++) { const nf=[...currentFangs,x]; const nk=computeKeySet(nf); const added=nk.filter(k=>!currentKeySet.has(k)); for(let k of added) freq.set(k,(freq.get(k)||0)+1); }
-            const result={}; PREDICT_CONFIG.forEach(c=>result[c.label]=[]); for(let [k,c] of freq.entries()) { for(let cfg of PREDICT_CONFIG) if(c>=cfg.minCount) { result[cfg.label].push(k); break; } }
-            for(let key in result) result[key].sort((a,b)=>b-a); return result;
-        }
-        function formatSubset(arr) { return arr.map(v=>formatPoint(v)).join('·'); }
-        function formatKeyDisplay(keys, pred=null) {
-            const count=keys.length; if(count===0) return '—'; if(count===13) return '完美'; const sd=[...keys].sort((a,b)=>b-a); if(count<=8) return sd.map(k=>formatPoint(k)).join(' ');
-            const missing=[]; for(let i=1;i<=13;i++) if(!keys.includes(i)) missing.push(i); if(!pred) return '缺：'+missing.map(m=>formatPoint(m)).join(' ');
-            const nl=PREDICT_CONFIG.map(c=>c.label).filter(l=>pred[l].length); if(nl.length===1) { const lb=nl[0]; const pk=pred[lb]; const ms=[...missing].sort((a,b)=>a-b); const ps=[...pk].sort((a,b)=>a-b); if(ms.length===ps.length&&ms.every((v,i)=>v===ps[i])) return `${lb} `+missing.map(m=>formatPoint(m)).join(' '); }
-            return '缺：'+missing.map(m=>formatPoint(m)).join(' ');
-        }
-        function renderPredictArea(pred, shouldShow) {
-            if(!shouldShow) { predictArea.style.display='none'; return; } const ha=PREDICT_CONFIG.some(c=>pred[c.label].length); if(!ha) { predictArea.style.display='none'; return; }
-            let html=''; PREDICT_CONFIG.forEach(c=>{ if(pred[c.label].length) html+=`<span class="predict-tag"><span class="predict-badge">${c.label}</span>${pred[c.label].map(k=>formatPoint(k)).join(' ')}</span>`; }); predictArea.innerHTML=html; predictArea.style.display='block';
-        }
-        function computeKeyAndGroups(fangs) {
-            const dg=[]; const av=new Set(); for(let d=1;d<=13;d++) { const t=36-d; if(t<0) continue; const ss=getSubsetsForTarget(fangs,t); if(ss.length) { av.add(d); const swr=ss.map(sub=>{ const rem=[...fangs]; for(let v of sub) { const i=rem.indexOf(v); if(i!==-1) rem.splice(i,1); } const rk=computeKeySet(rem); return {subset:sub, remainCount:rk.length, remainKeys:rk}; }); swr.sort((a,b)=>b.remainCount-a.remainCount); dg.push({discard:d, subsetsWithRemain:swr}); } }
-            dg.sort((a,b)=>b.discard-a.discard); const ck=Array.from(av).sort((a,b)=>a-b); return {discardGroups:dg, currentKeys:ck};
-        }
-        function buildTableHTML(dg) {
-            let html=`<table class="results-table"><thead><tr><th>弃</th><th>移去方</th><th>余</th><th></th></tr></thead><tbody>`;
-            let groupId = 0;
-            for(let g of dg) {
-                groupId++;
-                const d=g.discard,swr=g.subsetsWithRemain,sym=formatPoint(d);
-                const show=swr.slice(0,8);
-                for(let i=0;i<show.length;i++) {
-                    const item=show[i],sub=item.subset;
-                    const ss=JSON.stringify(sub).replace(/"/g,'&quot;');
-                    html+=`<tr data-group="${groupId}">`;
-                    if(i===0) html+=`<td class="discard-col" rowspan="${show.length}">${sym}</td>`;
-                    html+=`<td class="combo-col">${formatSubset(sub)}</td>`;
-                    html+=`<td class="remain-key-col">${formatKeyDisplay(item.remainKeys)}</td>`;
-                    html+=`<td class="action-col"><div class="check-btn" data-discard="${d}" data-subset="${ss}">✓</div></td></tr>`;
-                }
-                if(swr.length>8) html+=`<tr data-group="${groupId}"><td class="combo-col" colspan="3" style="opacity:0.7;font-size:0.8rem;padding-top:8px;">… 还有 ${swr.length-8} 种组合</td><td></td></tr>`;
+
+            function pushHistory() {
+                historyStack.push([...fangArray]);
+                if (historyStack.length > MAX_HISTORY) historyStack.shift();
             }
-            html+=`</tbody></table>`;
-            return html;
-        }
-        function adoptCombination(discard, subset, btn) { if(btn) { btn.classList.add('active-feedback'); setTimeout(()=>btn.classList.remove('active-feedback'),120); } pushHistory(); let nf=[...fangArray]; for(let v of subset) { const i=nf.indexOf(v); if(i!==-1) nf.splice(i,1); } fangArray=nf; updateDisplay(); computeAndRender(); }
-        function computeAndRender() {
-            const fangs=[...fangArray]; if(!fangs.length) { tableWrapper.innerHTML='<div class="empty-message">请选择方牌</div>'; availableDiscardInput.style.display='none'; predictArea.style.display='none'; return; }
-            const {discardGroups, currentKeys}=computeKeyAndGroups(fangs); const cks=new Set(currentKeys); const pred=computePrediction(fangs,cks); let kdv=''; let sp=true;
-            if(currentKeys.length) { if(currentKeys.length>8) { const ms=[]; for(let i=1;i<=13;i++) if(!cks.has(i)) ms.push(i); const nl=PREDICT_CONFIG.map(c=>c.label).filter(l=>pred[l].length); if(nl.length===1) { const lb=nl[0]; const pk=pred[lb]; const mss=[...ms].sort((a,b)=>a-b); const pks=[...pk].sort((a,b)=>a-b); if(mss.length===pks.length&&mss.every((v,i)=>v===pks[i])) { kdv=`${lb} `+ms.map(m=>formatPoint(m)).join(' '); sp=false; } } } if(!kdv) kdv=formatKeyDisplay(currentKeys,pred); availableDiscardInput.value=kdv; availableDiscardInput.style.display='block'; renderPredictArea(pred,sp); } else { availableDiscardInput.style.display='none'; predictArea.style.display='none'; }
-            if(!discardGroups.length) { tableWrapper.innerHTML='<div class="empty-message">无解</div>'; return; }
-            tableWrapper.innerHTML=buildTableHTML(discardGroups);
 
-            // 点击选中 — 字色变化
-            const rows = tableWrapper.querySelectorAll('tr[data-group]');
-            const groups = {};
-            rows.forEach(row => {
-                const gid = row.getAttribute('data-group');
-                if (!groups[gid]) groups[gid] = [];
-                groups[gid].push(row);
-            });
+            function undo() {
+                if (!historyStack.length) return;
+                fangArray = [...historyStack.pop()];
+                updateDisplay();
+                computeAndRender();
+            }
 
-            let currentSelectedGroup = null;
-            const allRows = tableWrapper.querySelectorAll('tr[data-group]');
-            allRows.forEach(row => {
-                row.addEventListener('click', (e) => {
-                    if (e.target.closest('.check-btn')) return;
-                    const groupId = row.getAttribute('data-group');
-                    if (currentSelectedGroup === groupId) {
-                        groups[groupId].forEach(r => r.classList.remove('selected'));
-                        currentSelectedGroup = null;
-                    } else {
-                        allRows.forEach(r => r.classList.remove('selected'));
-                        groups[groupId].forEach(r => r.classList.add('selected'));
-                        currentSelectedGroup = groupId;
+            function hardReset() {
+                fangArray = [];
+                historyStack = [];
+                updateDisplay();
+                computeAndRender();
+            }
+
+            // ========== UI 渲染 ==========
+            function renderButtons() {
+                const points = Array.from({ length: 13 }, (_, i) =>
+                    `<div class="grid-btn point-btn" data-point="${i + 1}">${POINT_MAP[i]}</div>`
+                ).join('');
+                buttonGrid.innerHTML = `${points}<div class="grid-btn undo-btn" id="undoBtn" title="撤销上一步">←</div>`;
+                document.getElementById('undoBtn').addEventListener('click', undo);
+            }
+
+            // ========== 核心算法 ==========
+            function getSubsetsForTarget(numbers, target) {
+                const sorted = [...numbers].sort((a, b) => a - b);
+                const solutions = [];
+                const n = sorted.length;
+
+                function backtrack(start, subset, sum) {
+                    if (sum === target) {
+                        solutions.push([...subset]);
+                        return;
                     }
+                    if (sum > target) return;
+                    for (let i = start; i < n; i++) {
+                        if (sum + sorted[i] > target) break;
+                        if (i > start && sorted[i] === sorted[i - 1]) continue;
+                        subset.push(sorted[i]);
+                        backtrack(i + 1, subset, sum + sorted[i]);
+                        subset.pop();
+                        if (solutions.length >= 60) return;
+                    }
+                }
+
+                backtrack(0, [], 0);
+                return solutions;
+            }
+
+            function computeKeySet(fangs) {
+                const keys = new Set();
+                for (let d = 1; d <= 13; d++) {
+                    const target = 36 - d;
+                    if (target < 0) continue;
+                    if (getSubsetsForTarget(fangs, target).length) keys.add(d);
+                }
+                return Array.from(keys).sort((a, b) => a - b);
+            }
+
+            function computePrediction(currentFangs, currentKeySet) {
+                const freq = new Map();
+                for (let x = 1; x <= 13; x++) {
+                    const newFangs = [...currentFangs, x];
+                    const newKeys = computeKeySet(newFangs);
+                    const addedKeys = newKeys.filter(k => !currentKeySet.has(k));
+                    for (const k of addedKeys) {
+                        freq.set(k, (freq.get(k) || 0) + 1);
+                    }
+                }
+
+                const result = {};
+                PREDICT_CONFIG.forEach(cfg => (result[cfg.label] = []));
+                for (const [k, count] of freq.entries()) {
+                    for (const cfg of PREDICT_CONFIG) {
+                        if (count >= cfg.minCount) {
+                            result[cfg.label].push(k);
+                            break;
+                        }
+                    }
+                }
+                for (const key in result) result[key].sort((a, b) => b - a);
+                return result;
+            }
+
+            function formatSubset(arr) {
+                return arr.map(formatPoint).join('·');
+            }
+
+            function formatKeyDisplay(keys, pred = null) {
+                const count = keys.length;
+                if (count === 0) return '—';
+                if (count === 13) return '完美';
+                const sortedDesc = [...keys].sort((a, b) => b - a);
+                if (count <= 8) return sortedDesc.map(formatPoint).join(' ');
+
+                const missing = [];
+                for (let i = 1; i <= 13; i++) {
+                    if (!keys.includes(i)) missing.push(i);
+                }
+
+                if (!pred) return `缺：${missing.map(formatPoint).join(' ')}`;
+
+                const nonEmptyLabels = PREDICT_CONFIG.map(cfg => cfg.label).filter(l => pred[l].length);
+                if (nonEmptyLabels.length === 1) {
+                    const label = nonEmptyLabels[0];
+                    const predKeys = pred[label];
+                    const missingSorted = [...missing].sort((a, b) => a - b);
+                    const predSorted = [...predKeys].sort((a, b) => a - b);
+                    if (
+                        missingSorted.length === predSorted.length &&
+                        missingSorted.every((v, i) => v === predSorted[i])
+                    ) {
+                        return `${label} ${missing.map(formatPoint).join(' ')}`;
+                    }
+                }
+
+                return `缺：${missing.map(formatPoint).join(' ')}`;
+            }
+
+            function renderPredictArea(pred, shouldShow) {
+                if (!shouldShow) {
+                    predictArea.style.display = 'none';
+                    return;
+                }
+                const hasAny = PREDICT_CONFIG.some(cfg => pred[cfg.label].length);
+                if (!hasAny) {
+                    predictArea.style.display = 'none';
+                    return;
+                }
+
+                const tags = PREDICT_CONFIG.filter(cfg => pred[cfg.label].length)
+                    .map(cfg =>
+                        `<span class="predict-tag"><span class="predict-badge">${cfg.label}</span>${pred[cfg.label].map(formatPoint).join(' ')}</span>`
+                    ).join('');
+
+                predictArea.innerHTML = tags;
+                predictArea.style.display = 'block';
+            }
+
+            function computeKeyAndGroups(fangs) {
+                const discardGroups = [];
+                const availableSet = new Set();
+
+                for (let d = 1; d <= 13; d++) {
+                    const target = 36 - d;
+                    if (target < 0) continue;
+                    const subsets = getSubsetsForTarget(fangs, target);
+                    if (subsets.length) {
+                        availableSet.add(d);
+                        const subsetsWithRemain = subsets.map(sub => {
+                            const rem = [...fangs];
+                            for (const v of sub) {
+                                const idx = rem.indexOf(v);
+                                if (idx !== -1) rem.splice(idx, 1);
+                            }
+                            const remainKeys = computeKeySet(rem);
+                            return { subset: sub, remainCount: remainKeys.length, remainKeys };
+                        });
+                        subsetsWithRemain.sort((a, b) => b.remainCount - a.remainCount);
+                        discardGroups.push({ discard: d, subsetsWithRemain });
+                    }
+                }
+
+                discardGroups.sort((a, b) => b.discard - a.discard);
+                const currentKeys = Array.from(availableSet).sort((a, b) => a - b);
+                return { discardGroups, currentKeys };
+            }
+
+            function buildTableHTML(discardGroups) {
+                let html = `<table class="results-table"><thead><tr><th>弃</th><th>移去方</th><th>余</th><th></th></tr></thead><tbody>`;
+                let groupId = 0;
+
+                for (const group of discardGroups) {
+                    groupId++;
+                    const { discard, subsetsWithRemain } = group;
+                    const sym = formatPoint(discard);
+                    const show = subsetsWithRemain.slice(0, 8);
+
+                    for (let i = 0; i < show.length; i++) {
+                        const { subset, remainKeys } = show[i];
+                        const subsetStr = JSON.stringify(subset).replace(/"/g, '&quot;');
+                        html += `<tr data-group="${groupId}">`;
+                        if (i === 0) {
+                            html += `<td class="discard-col" rowspan="${show.length}">${sym}</td>`;
+                        }
+                        html += `<td class="combo-col">${formatSubset(subset)}</td>`;
+                        html += `<td class="remain-key-col">${formatKeyDisplay(remainKeys)}</td>`;
+                        html += `<td class="action-col"><div class="check-btn" data-discard="${discard}" data-subset="${subsetStr}">✓</div></td></tr>`;
+                    }
+
+                    if (subsetsWithRemain.length > 8) {
+                        const remaining = subsetsWithRemain.length - 8;
+                        html += `<tr data-group="${groupId}"><td class="combo-col" colspan="3" style="opacity:0.7;font-size:0.8rem;padding-top:8px;">… 还有 ${remaining} 种组合</td><td></td></tr>`;
+                    }
+                }
+
+                html += `</tbody></table>`;
+                return html;
+            }
+
+            function adoptCombination(discard, subset, btn) {
+                if (btn) {
+                    btn.classList.add('active-feedback');
+                    setTimeout(() => btn.classList.remove('active-feedback'), 200);
+                }
+                pushHistory();
+                const newFangs = [...fangArray];
+                for (const val of subset) {
+                    const idx = newFangs.indexOf(val);
+                    if (idx !== -1) newFangs.splice(idx, 1);
+                }
+                fangArray = newFangs;
+                updateDisplay();
+                computeAndRender();
+            }
+
+            function computeAndRender() {
+                if (!fangArray.length) {
+                    tableWrapper.innerHTML = '<div class="empty-message">请选择方牌</div>';
+                    availableDiscardInput.style.display = 'none';
+                    predictArea.style.display = 'none';
+                    return;
+                }
+
+                const { discardGroups, currentKeys } = computeKeyAndGroups(fangArray);
+                const currentKeySet = new Set(currentKeys);
+                const pred = computePrediction(fangArray, currentKeySet);
+
+                let keyDisplayValue = '';
+                let showPrediction = true;
+
+                if (currentKeys.length) {
+                    if (currentKeys.length > 8) {
+                        const missing = [];
+                        for (let i = 1; i <= 13; i++) {
+                            if (!currentKeySet.has(i)) missing.push(i);
+                        }
+                        const nonEmptyLabels = PREDICT_CONFIG.map(cfg => cfg.label).filter(l => pred[l].length);
+                        if (nonEmptyLabels.length === 1) {
+                            const label = nonEmptyLabels[0];
+                            const predKeys = pred[label];
+                            const missingSorted = [...missing].sort((a, b) => a - b);
+                            const predSorted = [...predKeys].sort((a, b) => a - b);
+                            if (
+                                missingSorted.length === predSorted.length &&
+                                missingSorted.every((v, i) => v === predSorted[i])
+                            ) {
+                                keyDisplayValue = `${label} ${missing.map(formatPoint).join(' ')}`;
+                                showPrediction = false;
+                            }
+                        }
+                    }
+
+                    if (!keyDisplayValue) {
+                        keyDisplayValue = formatKeyDisplay(currentKeys, pred);
+                    }
+
+                    availableDiscardInput.value = keyDisplayValue;
+                    availableDiscardInput.style.display = 'block';
+                    renderPredictArea(pred, showPrediction);
+                } else {
+                    availableDiscardInput.style.display = 'none';
+                    predictArea.style.display = 'none';
+                }
+
+                if (!discardGroups.length) {
+                    tableWrapper.innerHTML = '<div class="empty-message">无解</div>';
+                    return;
+                }
+
+                tableWrapper.innerHTML = buildTableHTML(discardGroups);
+
+                // 点击选中逻辑
+                const rows = tableWrapper.querySelectorAll('tr[data-group]');
+                const groups = {};
+                rows.forEach(row => {
+                    const gid = row.getAttribute('data-group');
+                    if (!groups[gid]) groups[gid] = [];
+                    groups[gid].push(row);
                 });
+
+                let currentSelectedGroup = null;
+                rows.forEach(row => {
+                    row.addEventListener('click', (e) => {
+                        if (e.target.closest('.check-btn')) return;
+                        const groupId = row.getAttribute('data-group');
+                        if (currentSelectedGroup === groupId) {
+                            groups[groupId].forEach(r => r.classList.remove('selected'));
+                            currentSelectedGroup = null;
+                        } else {
+                            rows.forEach(r => r.classList.remove('selected'));
+                            groups[groupId].forEach(r => r.classList.add('selected'));
+                            currentSelectedGroup = groupId;
+                        }
+                    });
+                });
+
+                // 采纳按钮事件
+                tableWrapper.querySelectorAll('.check-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const discard = parseInt(btn.dataset.discard, 10);
+                        const subsetRaw = btn.dataset.subset;
+                        if (!subsetRaw) return;
+                        try {
+                            adoptCombination(discard, JSON.parse(subsetRaw), btn);
+                        } catch (error) {
+                            console.error('解析采纳数据失败:', error);
+                        }
+                    });
+                });
+            }
+
+            function addFang(point) {
+                if (fangArray.length >= MAX_FANG) {
+                    alert(`最多只能添加 ${MAX_FANG} 张方牌`);
+                    return;
+                }
+                if (point >= 1 && point <= 13) {
+                    pushHistory();
+                    fangArray.push(point);
+                    updateDisplay();
+                    computeAndRender();
+                }
+            }
+
+            // ========== 事件绑定 ==========
+            buttonGrid.addEventListener('click', (e) => {
+                const btn = e.target.closest('.point-btn');
+                if (!btn) return;
+                const point = parseInt(btn.dataset.point, 10);
+                if (!isNaN(point)) addFang(point);
             });
 
-            document.querySelectorAll('.check-btn').forEach(btn=>{ btn.addEventListener('click',(e)=>{ e.stopPropagation(); const d=parseInt(btn.dataset.discard); const sr=btn.dataset.subset; if(!sr) return; try { adoptCombination(d,JSON.parse(sr),btn); } catch(e){} }); });
-        }
-        function addFang(point) { if(fangArray.length>=MAX_FANG) { alert(`最多只能添加 ${MAX_FANG} 张方牌`); return; } if(point>=1&&point<=13) { pushHistory(); fangArray.push(point); updateDisplay(); computeAndRender(); } }
-        buttonGrid.addEventListener('click',(e)=>{ const btn=e.target.closest('.point-btn'); if(!btn) return; const p=parseInt(btn.dataset.point); if(!isNaN(p)) addFang(p); });
-        fangDisplay.addEventListener('dblclick',(e)=>{ e.preventDefault(); hardReset(); });
-        renderButtons(); updateDisplay(); computeAndRender();
-    })();
-</script>
+            fangDisplay.addEventListener('dblclick', (e) => {
+                e.preventDefault();
+                hardReset();
+            });
+
+            // ========== 初始化 ==========
+            renderButtons();
+            updateDisplay();
+            computeAndRender();
+        })();
+    </script>
 </body>
 </html>
