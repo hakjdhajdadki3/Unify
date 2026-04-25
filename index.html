@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>方统 · 极简 v9.0.0</title>
+    <title>方统 · 极简 v9.0.1</title>
     <style>
         /* ========== 全局重置与设计变量 ========== */
         *,
@@ -33,7 +33,6 @@
             --radius-lg: 40px;
             --radius-md: 30px;
             --radius-sm: 24px;
-            --radius-full: 50%;
         }
 
         @media (prefers-color-scheme: dark) {
@@ -77,6 +76,8 @@
             box-shadow: var(--shadow-card);
             padding: 36px 28px 38px;
             transition: background 0.4s ease, box-shadow 0.3s ease;
+            /* 防止子元素溢出圆角边界 */
+            overflow: hidden;
         }
 
         /* ========== 通用禁止选中 ========== */
@@ -132,6 +133,8 @@
             grid-template-columns: repeat(7, 1fr);
             gap: 10px;
             margin: 8px 0 28px;
+            /* 关键：限制网格最大宽度，防止溢出 */
+            max-width: 100%;
         }
 
         .grid-btn {
@@ -139,7 +142,7 @@
             background: var(--bg-button);
             border: none;
             color: var(--color-text);
-            font-size: 1.25rem;
+            font-size: clamp(0.9rem, 4vw, 1.25rem); /* 响应式字体：最小0.9rem，最大1.25rem */
             font-weight: 520;
             border-radius: var(--radius-sm);
             transition: var(--transition-smooth);
@@ -150,8 +153,13 @@
             box-shadow: var(--shadow-button);
             backdrop-filter: blur(10px);
             line-height: 1;
+            /* 防止内容溢出 */
             min-width: 0;
             overflow: hidden;
+            /* 防止文字换行 */
+            white-space: nowrap;
+            /* 允许按钮在空间不足时适当缩小 */
+            flex-shrink: 1;
         }
 
         .grid-btn:hover {
@@ -168,7 +176,7 @@
         }
 
         .undo-btn {
-            font-size: 1.5rem;
+            font-size: clamp(1rem, 4vw, 1.5rem);
             font-weight: 380;
         }
 
@@ -176,7 +184,7 @@
         .key-area {
             width: 100%;
             padding: 6px 8px;
-            font-size: 1rem;
+            font-size: clamp(0.85rem, 3.5vw, 1rem);
             font-weight: 550;
             font-family: 'SF Mono', 'Menlo', monospace;
             background: transparent;
@@ -226,12 +234,15 @@
         .table-wrapper {
             margin-top: 8px;
             overflow-x: auto;
+            /* 横屏或小屏时允许表格滚动 */
+            -webkit-overflow-scrolling: touch;
         }
 
         .results-table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 300px;
+            /* 设置最小宽度，但允许收缩 */
+            min-width: auto;
         }
 
         .results-table th {
@@ -243,6 +254,7 @@
             border-bottom: 0.5px solid var(--color-border);
             letter-spacing: 0.8px;
             text-transform: uppercase;
+            white-space: nowrap;
         }
 
         .results-table td {
@@ -275,14 +287,15 @@
         .discard-col {
             font-weight: 600;
             color: var(--color-primary);
-            font-size: 1.2rem;
+            font-size: clamp(1rem, 4vw, 1.2rem);
             width: 45px;
             padding-right: 8px;
+            white-space: nowrap;
         }
 
         .combo-col {
             font-family: 'SF Mono', 'Menlo', monospace;
-            font-size: 0.95rem;
+            font-size: clamp(0.8rem, 3.5vw, 0.95rem);
             letter-spacing: 0.5px;
             word-break: break-word;
             padding-right: 8px;
@@ -290,7 +303,7 @@
 
         .remain-key-col {
             font-family: 'SF Mono', 'Menlo', monospace;
-            font-size: 0.85rem;
+            font-size: clamp(0.7rem, 3vw, 0.85rem);
             color: var(--color-primary);
             letter-spacing: 0.3px;
             padding-right: 0;
@@ -301,6 +314,7 @@
         .action-col {
             width: 52px;
             padding-right: 0;
+            white-space: nowrap;
         }
 
         /* ========== 采纳按钮 ========== */
@@ -409,9 +423,35 @@
             .results-table td {
                 padding: 14px 0;
             }
+        }
 
-            .combo-col {
-                font-size: 0.9rem;
+        /* 极小屏幕适配（如 iPhone SE 竖屏） */
+        @media (max-width: 360px) {
+            .tool {
+                padding: 24px 16px 28px;
+            }
+
+            .point-grid {
+                gap: 6px;
+            }
+
+            .grid-btn {
+                font-size: clamp(0.8rem, 5vw, 1rem);
+            }
+
+            .discard-col {
+                width: 38px;
+            }
+
+            .action-col {
+                width: 44px;
+            }
+
+            .check-btn {
+                width: 38px;
+                height: 38px;
+                border-radius: 19px;
+                font-size: 1.5rem;
             }
         }
     </style>
